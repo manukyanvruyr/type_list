@@ -67,10 +67,10 @@ namespace test
 
 void print()
 {
-    utility::print<T1>();
-    utility::print<T2>();
-    utility::print<T3>();
-    utility::print<T4>();
+	utility::print<T1>();
+	utility::print<T2>();
+	utility::print<T3>();
+	utility::print<T4>();
 	utility::print<T5>();
 	utility::print<T6>();
 }
