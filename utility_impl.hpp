@@ -158,19 +158,19 @@ struct length;
 template <typename H, typename ... Args>
 struct length<TL::type_list<H, Args...>>
 {
-	enum { value = 1 + length<typename TL::type_list<H, Args...>::tail>::value };
+	static constexpr int value = 1 + length<typename TL::type_list<H, Args...>::tail>::value;
 };
 
 template <typename H>
 struct length<TL::type_list<H>>
 {
-	enum { value = 1 };
+	static constexpr int value = 1;
 };
 
 template <>
 struct length<TL::nulltype>
 {
-	enum { value = 0 };
+	static constexpr int value = 0;
 };
 
 /////////////// type_at ///////////////
@@ -197,23 +197,23 @@ struct type_at<TL::type_list<H, Args...>, i>
 template <typename H, typename ... Args>
 struct index_of<TL::type_list<H, Args...>, H>
 {
-	enum { value = 0 };
+	static constexpr int value = 0;
 };
 
 template <typename H>
 struct index_of<TL::nulltype, H>
 {
-	enum { value = -1 };
+	static constexpr int value = -1;
 };
 
 template <typename H, typename ... Args, typename T>
 struct index_of<TL::type_list<H, Args...>, T>
 {
 private:
-	enum { tmp_value = index_of<typename TL::type_list<H, Args...>::tail, T>::value };
+	static constexpr int tmp_value = index_of<typename TL::type_list<H, Args...>::tail, T>::value;
 
 public:
-	enum { value = (tmp_value == -1) ? -1 : 1 + tmp_value };
+	static constexpr int value = (tmp_value == -1) ? -1 : 1 + tmp_value;
 };
 
 /////////////// append ///////////////
