@@ -1,2 +1,2 @@
-implementation of type_list
+implementation of type_list.
 all operations are done in compile time
