@@ -216,4 +216,43 @@ public:
 	enum { value = (tmp_value == -1) ? -1 : 1 + tmp_value };
 };
 
+/////////////// append ///////////////
+// e.g., append<type_list1, type_list2>
+template <typename H, typename ... Tail>
+struct append<TL::type_list<H, TL::nulltype>, TL::type_list<Tail...>>
+{
+	using value = TL::type_list<H, TL::type_list<Tail...>>;
+};
+
+template <typename H, typename ... Tail>
+struct append<TL::type_list<H>, TL::type_list<Tail...>>
+{
+	using value = TL::type_list<H, TL::type_list<Tail...>>;
+};
+
+template <typename H, typename ... Args, typename ... Tail>
+struct append<TL::type_list<H, Args...>, TL::type_list<Tail...>>
+{
+	using value = TL::type_list<H, typename append<typename TL::type_list<H, Args...>::tail, TL::type_list<Tail...>>::value>;
+};
+
+// e.g., append<type_list, int, double, ... >
+template <typename H, typename ... Tail>
+struct append<TL::type_list<H, TL::nulltype>, Tail...>
+{
+	using value = TL::type_list<H, TL::type_list<Tail...>>;
+};
+
+template <typename H, typename ... Tail>
+struct append<TL::type_list<H>, Tail...>
+{
+	using value = TL::type_list<H, TL::type_list<Tail...>>;
+};
+
+template <typename H, typename ... Args, typename ... Tail>
+struct append<TL::type_list<H, Args...>, Tail...>
+{
+	using value = TL::type_list<H, typename append<typename TL::type_list<H, Args...>::tail, Tail...>::value>;
+};
+
 } // namespace utility

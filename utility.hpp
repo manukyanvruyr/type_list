@@ -21,6 +21,9 @@ struct type_at;
 template <typename H, typename T>
 struct index_of;
 
+template <typename H, typename ... Tail>
+struct append;
+
 } // namespace utility
 
 #include "utility_impl.hpp"

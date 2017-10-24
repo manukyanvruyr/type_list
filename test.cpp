@@ -83,6 +83,27 @@ void search_type_checker()
 	static_assert(utility::index_of<T6, abstract>::value == 1, "index_of<T6, abstract>");
 }
 
+void append_checker()
+{
+	using t1 = typename utility::append<T3, double, int*, abstract>::value;
+	static_assert(utility::length<t1>::value == 5, "length<t1>");
+	static_assert(std::is_same<t1::tail::tail::tail::head, int*>::value, "t1::tail::tail::tail::head");
+	static_assert(std::is_same<typename utility::type_at<t1, 4>::value, abstract>::value, "type_at<t1, 4>");
+	static_assert(utility::index_of<t1, int*>::value == 3, "index_of<t1, int*>");
+
+	using t2 = typename utility::append<T3, T4>::value;
+	static_assert(utility::length<t2>::value == 5, "length<t2>");
+	static_assert(std::is_same<t2::tail::tail::tail::head, unsigned int>::value, "t2::tail::tail::tail::head");
+	static_assert(std::is_same<typename utility::type_at<t2, 4>::value, long int>::value, "type_at<t2, 4>");
+	static_assert(utility::index_of<t2, double>::value == 1, "index_of<t2, double>");
+
+	using t3 = typename utility::append<T1, T5>::value;
+	static_assert(utility::length<t3>::value == 4, "length<t3>");
+	static_assert(std::is_same<t3::tail::tail::tail::head, char>::value, "t3::tail::tail::tail::head");
+	static_assert(std::is_same<typename utility::type_at<t3, 2>::value, double>::value, "type_at<t3, 2>");
+	static_assert(utility::index_of<t3, double>::value == 2, "index_of<t3, double>");
+}
+
 } // namespace unnamed
 
 namespace test
