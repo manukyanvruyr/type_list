@@ -5,5 +5,4 @@
 int main()
 {
 	test::print();
-	std::cout << "Pass\n";
 }
