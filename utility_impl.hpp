@@ -240,10 +240,22 @@ struct append<TL::type_list<H, TL::nulltype>, Tail...>
 	using value = TL::type_list<H, TL::type_list<Tail...>>;
 };
 
+template <typename H>
+struct append<TL::type_list<H, TL::nulltype>,  TL::nulltype>
+{
+	using value = TL::type_list<H, TL::nulltype>;
+};
+
 template <typename H, typename ... Tail>
 struct append<TL::type_list<H>, Tail...>
 {
 	using value = TL::type_list<H, TL::type_list<Tail...>>;
+};
+
+template <typename H>
+struct append<TL::type_list<H>, TL::nulltype>
+{
+	using value = TL::type_list<H>;
 };
 
 template <typename H, typename ... Args>

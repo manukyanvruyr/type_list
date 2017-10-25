@@ -85,6 +85,13 @@ void search_type_checker()
 
 void append_checker()
 {
+	static_assert(std::is_same<T1, typename utility::append<T1, TL::nulltype>::value>::value, "T1 == append<T5, nulltype>");
+	static_assert(std::is_same<T2, typename utility::append<T2, TL::nulltype>::value>::value, "T2 == append<T5, nulltype>");
+	static_assert(std::is_same<T3, typename utility::append<T3, TL::nulltype>::value>::value, "T3 == append<T5, nulltype>");
+	static_assert(std::is_same<T4, typename utility::append<T4, TL::nulltype>::value>::value, "T4 == append<T5, nulltype>");
+	static_assert(std::is_same<T5, typename utility::append<T5, TL::nulltype>::value>::value, "T5 == append<T5, nulltype>");
+	static_assert(std::is_same<T6, typename utility::append<T6, TL::nulltype>::value>::value, "T6 == append<T5, nulltype>");
+
 	using t1 = typename utility::append<T3, double, int*, abstract>::value;
 	static_assert(utility::length<t1>::value == 5, "length<t1>");
 	static_assert(std::is_same<t1::tail::tail::tail::head, int*>::value, "t1::tail::tail::tail::head");
@@ -134,7 +141,6 @@ void erase_checker()
 
 namespace test
 {
-
 
 void print()
 {
