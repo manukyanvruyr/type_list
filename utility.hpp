@@ -24,6 +24,9 @@ struct index_of;
 template <typename H, typename ... Tail>
 struct append;
 
+template <typename H, typename T>
+struct erase;
+
 } // namespace utility
 
 #include "utility_impl.hpp"

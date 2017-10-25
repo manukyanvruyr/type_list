@@ -104,10 +104,37 @@ void append_checker()
 	static_assert(utility::index_of<t3, double>::value == 2, "index_of<t3, double>");
 }
 
+void erase_checker()
+{
+	using t1 = typename utility::erase<T3, double>::value;
+	static_assert(utility::length<t1>::value == 1, "length<t1>");
+	static_assert(std::is_same<t1::tail, TL::nulltype>::value, "t1::tail");
+
+	using t2 = typename utility::erase<T5, char>::value;
+	static_assert(utility::length<t2>::value == 2, "length<t2>");
+	static_assert(std::is_same<t2::tail::head, double>::value, "t2::tail::head");
+	static_assert(std::is_same<typename utility::type_at<t2, 1>::value, double>::value, "type_at<t2, 1>");
+	static_assert(utility::index_of<t2, char>::value == -1, "index_of<t2, char>");
+
+	using t3 = typename utility::erase<T5, char*>::value;
+	static_assert(utility::length<t3>::value == 3, "length<t3>");
+	static_assert(std::is_same<t3::tail::tail::head, char>::value, "t3::tail::tail::head");
+	static_assert(std::is_same<typename utility::type_at<t3, 1>::value, double>::value, "type_at<t3, 1>");
+	static_assert(utility::index_of<t3, char>::value == 2, "index_of<t3, char>");
+
+	// TODO there is a side effect, if erase doesn't erase anything
+	//	it addes TL::nulltype at the end of type_list
+	using t4 = typename utility::erase<T5, char*>::value;
+	using t41 = TL::type_list<int, TL::type_list<double, TL::type_list<char, TL::nulltype>>>;
+	static_assert(!std::is_same<t4, T5>::value, "t4 == T5");
+	static_assert(std::is_same<t4, t41>::value, "t4 == t41");
+}
+
 } // namespace unnamed
 
 namespace test
 {
+
 
 void print()
 {

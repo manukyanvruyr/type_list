@@ -152,9 +152,6 @@ public:
 };
 
 /////////////// length ///////////////
-template <typename H>
-struct length;
-
 template <typename H, typename ... Args>
 struct length<TL::type_list<H, Args...>>
 {
@@ -249,10 +246,35 @@ struct append<TL::type_list<H>, Tail...>
 	using value = TL::type_list<H, TL::type_list<Tail...>>;
 };
 
+template <typename H, typename ... Args>
+struct append<TL::type_list<H, Args...>, TL::nulltype>
+{
+	using value = TL::type_list<H, Args...>;
+};
+
 template <typename H, typename ... Args, typename ... Tail>
 struct append<TL::type_list<H, Args...>, Tail...>
 {
 	using value = TL::type_list<H, typename append<typename TL::type_list<H, Args...>::tail, Tail...>::value>;
+};
+
+/////////////// erase ///////////////
+template <typename T>
+struct erase<TL::nulltype, T>
+{
+	using value = TL::nulltype;
+};
+
+template <typename H, typename ... Args>
+struct erase<TL::type_list<H, Args...>, H>
+{
+	using value = typename TL::type_list<H, Args...>::tail;
+};
+
+template <typename H, typename ... Args, typename T>
+struct erase<TL::type_list<H, Args...>, T>
+{
+	using value = TL::type_list<H, typename erase<typename TL::type_list<H, Args...>::tail, T>::value>;
 };
 
 } // namespace utility
