@@ -30,6 +30,9 @@ struct erase;
 template <typename H, typename T>
 struct erase_all;
 
+template <typename H>
+struct remove_duplicates;
+
 } // namespace utility
 
 #include "utility_impl.hpp"

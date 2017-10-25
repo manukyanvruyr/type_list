@@ -284,6 +284,12 @@ struct erase<TL::type_list<H, T>, T>
 };
 
 template <typename H>
+struct erase<TL::type_list<H>, H>
+{
+	using value = TL::nulltype;
+};
+
+template <typename H>
 struct erase<TL::type_list<H, TL::nulltype>, H>
 {
 	using value = TL::nulltype;
@@ -327,6 +333,12 @@ struct erase_all<TL::type_list<H, T>, T>
 };
 
 template <typename H>
+struct erase_all<TL::type_list<H>, H>
+{
+	using value = TL::nulltype;
+};
+
+template <typename H>
 struct erase_all<TL::type_list<H, TL::nulltype>, H>
 {
 	using value = TL::nulltype;
@@ -354,6 +366,47 @@ template <typename H, typename ... Args, typename T>
 struct erase_all<TL::type_list<H, Args...>, T>
 {
 	using value = TL::type_list<H, typename erase_all<typename TL::type_list<H, Args...>::tail, T>::value>;
+};
+
+/////////////// erase all ///////////////
+template <typename H>
+struct remove_duplicates<TL::type_list<H>>
+{
+	using value = TL::type_list<H>;
+};
+
+template <typename H>
+struct remove_duplicates<TL::type_list<H, H>>
+{
+	using value = TL::type_list<H>;
+};
+
+template <typename H>
+struct remove_duplicates<TL::type_list<H, TL::type_list<H>>>
+{
+	using value = TL::type_list<H>;
+};
+
+template <typename H>
+struct remove_duplicates<TL::type_list<H, TL::type_list<H, TL::nulltype>>>
+{
+	using value = TL::type_list<H>;
+};
+
+template <typename H>
+struct remove_duplicates<TL::type_list<H, TL::nulltype>>
+{
+	using value = TL::type_list<H, TL::nulltype>;
+};
+
+template <typename H, typename ... Args>
+struct remove_duplicates<TL::type_list<H, Args...>>
+{
+private:
+	using tmp_value = typename erase_all<typename TL::type_list<H, Args...>::tail, H>::value;
+
+public:
+	using value = TL::type_list<H, typename remove_duplicates<tmp_value>::value>;
 };
 
 } // namespace utility

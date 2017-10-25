@@ -180,6 +180,15 @@ void erase_all_checker()
 
 }
 
+void remove_duplicates_checker()
+{
+	using t1 = typename utility::append<T5, int, double, int, char>::value;
+	static_assert(std::is_same<typename utility::remove_duplicates<t1>::value, T5>::value, "remove_duplicates<t1> == T5");
+	static_assert(std::is_same<typename utility::remove_duplicates<typename utility::append<T2, T1>::value>::value, T2>::value, "append<T2, T1> == T2");
+	static_assert(std::is_same<typename utility::remove_duplicates<typename utility::append<T4, T6>::value>::value,
+		TL::type_list<int, TL::type_list<unsigned int, TL::type_list<long int, TL::type_list<abstract>>>>>::value, "remove_duplicates<append<T4, T6>>");
+}
+
 } // namespace unnamed
 
 namespace test
