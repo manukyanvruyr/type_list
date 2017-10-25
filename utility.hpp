@@ -27,6 +27,9 @@ struct append;
 template <typename H, typename T>
 struct erase;
 
+template <typename H, typename T>
+struct erase_all;
+
 } // namespace utility
 
 #include "utility_impl.hpp"

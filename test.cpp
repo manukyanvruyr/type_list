@@ -141,6 +141,45 @@ void erase_checker()
 	static_assert(!std::is_same<t4, t41>::value, "t4 != t41");
 }
 
+void erase_all_checker()
+{
+	static_assert(std::is_same<typename utility::erase_all<T1, int>::value, TL::nulltype>::value, "erase_all<T1, int> == nulltype");
+	static_assert(std::is_same<typename utility::erase_all<T1, int*>::value, T1>::value, "erase_all<T1, int*> == T1");
+	static_assert(std::is_same<typename utility::erase_all<T5, double>::value, TL::type_list<int, TL::type_list<char>>>::value,
+		"erase_all<T5, double> == type_list<int, type_list<char>>");
+
+	using t1 = typename utility::erase_all<T3, double>::value;
+	static_assert(utility::length<t1>::value == 1, "length<t1>");
+	static_assert(std::is_same<t1::tail, TL::nulltype>::value, "t1::tail");
+
+	using t2 = typename utility::erase_all<T5, char>::value;
+	static_assert(utility::length<t2>::value == 2, "length<t2>");
+	static_assert(std::is_same<t2::tail::head, double>::value, "t2::tail::head");
+	static_assert(std::is_same<typename utility::type_at<t2, 1>::value, double>::value, "type_at<t2, 1>");
+	static_assert(utility::index_of<t2, char>::value == -1, "index_of<t2, char>");
+
+	using t3 = typename utility::erase_all<T5, char*>::value;
+	static_assert(utility::length<t3>::value == 3, "length<t3>");
+	static_assert(std::is_same<t3::tail::tail::head, char>::value, "t3::tail::tail::head");
+	static_assert(std::is_same<typename utility::type_at<t3, 1>::value, double>::value, "type_at<t3, 1>");
+	static_assert(utility::index_of<t3, char>::value == 2, "index_of<t3, char>");
+
+	using t4 = typename utility::erase_all<T5, char*>::value;
+	using t41 = TL::type_list<int, TL::type_list<double, TL::type_list<char, TL::nulltype>>>;
+	static_assert(std::is_same<t4, T5>::value, "t4 == T5");
+	static_assert(!std::is_same<t4, t41>::value, "t4 != t41");
+
+	using t5 = typename utility::append<T5, int, double, int, char>::value;
+	using t51 = typename utility::erase_all<t5, int>::value;
+	static_assert(utility::length<t51>::value == 4, "t51 length");
+	static_assert(std::is_same<t51, TL::type_list<double, TL::type_list<char, TL::type_list<double, TL::type_list<char>>>>>::value,
+		"t51 == type_list<double, type_list<char, type_list<double, type_list<char>>>>");
+	static_assert(std::is_same<t51::tail::head, char>::value, "t51::tail::head");
+	static_assert(std::is_same<typename utility::type_at<t51, 1>::value, char>::value, "type_at<t51, 1>");
+	static_assert(utility::index_of<t51, double>::value == 0, "index_of<t51, double>");
+
+}
+
 } // namespace unnamed
 
 namespace test

@@ -313,4 +313,47 @@ struct erase<TL::type_list<H, Args...>, T>
 	using value = TL::type_list<H, typename erase<typename TL::type_list<H, Args...>::tail, T>::value>;
 };
 
+/////////////// erase all ///////////////
+template <typename H, typename T>
+struct erase_all<TL::type_list<H, TL::type_list<T>>, T>
+{
+	using value = TL::type_list<H>;
+};
+
+template <typename H, typename T>
+struct erase_all<TL::type_list<H, T>, T>
+{
+	using value = TL::type_list<H>;
+};
+
+template <typename H>
+struct erase_all<TL::type_list<H, TL::nulltype>, H>
+{
+	using value = TL::nulltype;
+};
+
+template <typename H, typename T>
+struct erase_all<TL::type_list<H, TL::nulltype>, T>
+{
+	using value = TL::type_list<H, TL::nulltype>;
+};
+
+template <typename H, typename T>
+struct erase_all<TL::type_list<H>, T>
+{
+	using value = TL::type_list<H>;
+};
+
+template <typename H, typename ... Args>
+struct erase_all<TL::type_list<H, Args...>, H>
+{
+	using value = typename erase_all<typename TL::type_list<H, Args...>::tail, H>::value;
+};
+
+template <typename H, typename ... Args, typename T>
+struct erase_all<TL::type_list<H, Args...>, T>
+{
+	using value = TL::type_list<H, typename erase_all<typename TL::type_list<H, Args...>::tail, T>::value>;
+};
+
 } // namespace utility
