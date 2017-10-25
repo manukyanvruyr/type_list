@@ -85,12 +85,14 @@ void search_type_checker()
 
 void append_checker()
 {
-	static_assert(std::is_same<T1, typename utility::append<T1, TL::nulltype>::value>::value, "T1 == append<T5, nulltype>");
-	static_assert(std::is_same<T2, typename utility::append<T2, TL::nulltype>::value>::value, "T2 == append<T5, nulltype>");
-	static_assert(std::is_same<T3, typename utility::append<T3, TL::nulltype>::value>::value, "T3 == append<T5, nulltype>");
-	static_assert(std::is_same<T4, typename utility::append<T4, TL::nulltype>::value>::value, "T4 == append<T5, nulltype>");
+	static_assert(std::is_same<T1, typename utility::append<T1, TL::nulltype>::value>::value, "T1 == append<T1, nulltype>");
+	static_assert(std::is_same<T2, typename utility::append<T2, TL::nulltype>::value>::value, "T2 == append<T2, nulltype>");
+	static_assert(std::is_same<T3, typename utility::append<T3, TL::nulltype>::value>::value, "T3 == append<T3, nulltype>");
+	static_assert(std::is_same<T4, typename utility::append<T4, TL::nulltype>::value>::value, "T4 == append<T4, nulltype>");
 	static_assert(std::is_same<T5, typename utility::append<T5, TL::nulltype>::value>::value, "T5 == append<T5, nulltype>");
-	static_assert(std::is_same<T6, typename utility::append<T6, TL::nulltype>::value>::value, "T6 == append<T5, nulltype>");
+	static_assert(std::is_same<T6, typename utility::append<T6, TL::nulltype>::value>::value, "T6 == append<T6, nulltype>");
+
+	static_assert(std::is_same<TL::type_list<int, TL::type_list<int>>, typename utility::append<T1, int>::value>::value, "type_list<int, type_list<int>> == append<T1, int>");
 
 	using t1 = typename utility::append<T3, double, int*, abstract>::value;
 	static_assert(utility::length<t1>::value == 5, "length<t1>");
@@ -113,6 +115,10 @@ void append_checker()
 
 void erase_checker()
 {
+	static_assert(std::is_same<typename utility::erase<T1, int>::value, TL::nulltype>::value, "erase<T1, int> == nulltype");
+	static_assert(std::is_same<typename utility::erase<T1, int*>::value, T1>::value, "erase<T1, int*> == T1");
+	static_assert(std::is_same<typename utility::erase<T5, double>::value, TL::type_list<int, TL::type_list<char>>>::value, "erase<T5, double> == type_list<int, type_list<char>>");
+
 	using t1 = typename utility::erase<T3, double>::value;
 	static_assert(utility::length<t1>::value == 1, "length<t1>");
 	static_assert(std::is_same<t1::tail, TL::nulltype>::value, "t1::tail");
@@ -129,12 +135,10 @@ void erase_checker()
 	static_assert(std::is_same<typename utility::type_at<t3, 1>::value, double>::value, "type_at<t3, 1>");
 	static_assert(utility::index_of<t3, char>::value == 2, "index_of<t3, char>");
 
-	// TODO there is a side effect, if erase doesn't erase anything
-	//	it addes TL::nulltype at the end of type_list
 	using t4 = typename utility::erase<T5, char*>::value;
 	using t41 = TL::type_list<int, TL::type_list<double, TL::type_list<char, TL::nulltype>>>;
-	static_assert(!std::is_same<t4, T5>::value, "t4 == T5");
-	static_assert(std::is_same<t4, t41>::value, "t4 == t41");
+	static_assert(std::is_same<t4, T5>::value, "t4 == T5");
+	static_assert(!std::is_same<t4, t41>::value, "t4 != t41");
 }
 
 } // namespace unnamed
