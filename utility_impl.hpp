@@ -368,7 +368,7 @@ struct erase_all<TL::type_list<H, Args...>, T>
 	using value = TL::type_list<H, typename erase_all<typename TL::type_list<H, Args...>::tail, T>::value>;
 };
 
-/////////////// erase all ///////////////
+/////////////// remove duplicates ///////////////
 template <typename H>
 struct remove_duplicates<TL::type_list<H>>
 {
@@ -407,6 +407,80 @@ private:
 
 public:
 	using value = TL::type_list<H, typename remove_duplicates<tmp_value>::value>;
+};
+
+/////////////// replace ///////////////
+template <typename H, typename U>
+struct replace<TL::type_list<H>, H, U>
+{
+	using value = TL::type_list<U>;
+};
+
+template <typename H, typename U>
+struct replace<TL::type_list<H, TL::nulltype>, H, U>
+{
+	using value = TL::type_list<U, TL::nulltype>;
+};
+
+template <typename H, typename T, typename U>
+struct replace<TL::type_list<H, TL::nulltype>, T, U>
+{
+	using value = TL::type_list<H, TL::nulltype>;
+};
+
+template <typename H, typename T, typename U>
+struct replace<TL::type_list<H>, T, U>
+{
+	using value = TL::type_list<H>;
+};
+
+template <typename H, typename ... Args, typename U>
+struct replace<TL::type_list<H, Args...>, H, U>
+{
+	using value = typename TL::type_list<U, Args...>;
+};
+
+template <typename H, typename ... Args, typename T, typename U>
+struct replace<TL::type_list<H, Args...>, T, U>
+{
+	using value = TL::type_list<H, typename replace<typename TL::type_list<H, Args...>::tail, T, U>::value>;
+};
+
+/////////////// replace all ///////////////
+template <typename H, typename U>
+struct replace_all<TL::type_list<H>, H, U>
+{
+	using value = TL::type_list<U>;
+};
+
+template <typename H, typename U>
+struct replace_all<TL::type_list<H, TL::nulltype>, H, U>
+{
+	using value = TL::type_list<U, TL::nulltype>;
+};
+
+template <typename H, typename T, typename U>
+struct replace_all<TL::type_list<H, TL::nulltype>, T, U>
+{
+	using value = TL::type_list<H, TL::nulltype>;
+};
+
+template <typename H, typename T, typename U>
+struct replace_all<TL::type_list<H>, T, U>
+{
+	using value = TL::type_list<H>;
+};
+
+template <typename H, typename ... Args, typename U>
+struct replace_all<TL::type_list<H, Args...>, H, U>
+{
+	using value = typename replace_all<typename TL::type_list<U, Args...>, H, U>::value;
+};
+
+template <typename H, typename ... Args, typename T, typename U>
+struct replace_all<TL::type_list<H, Args...>, T, U>
+{
+	using value = TL::type_list<H, typename replace_all<typename TL::type_list<H, Args...>::tail, T, U>::value>;
 };
 
 } // namespace utility

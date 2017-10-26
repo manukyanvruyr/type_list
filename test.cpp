@@ -189,6 +189,53 @@ void remove_duplicates_checker()
 		TL::type_list<int, TL::type_list<unsigned int, TL::type_list<long int, TL::type_list<abstract>>>>>::value, "remove_duplicates<append<T4, T6>>");
 }
 
+void replace_checker()
+{
+	static_assert(std::is_same<typename utility::replace<T1, int, int>::value, T1>::value, "replace<T1, int, int> == T1");
+	static_assert(std::is_same<typename utility::replace<T1, int*, int>::value, T1>::value, "replace<T1, int*> == T1");
+	static_assert(std::is_same<typename utility::replace<T5, double, int*>::value,
+		TL::type_list<int, TL::type_list<int*, TL::type_list<char>>>>::value, "replace<T5, double> == type_list<int, type_list<int*, type_list<char>>>");
+
+	using t1 = typename utility::replace<T3, double, char>::value;
+	static_assert(utility::length<t1>::value == 2, "length<t1>");
+	static_assert(std::is_same<t1::tail::head, char>::value, "t1::tail::head");
+
+	using t2 = typename utility::replace<T5, char, char*>::value;
+	static_assert(utility::length<t2>::value == 3, "length<t2>");
+	static_assert(std::is_same<t2::tail::head, double>::value, "t2::tail::head");
+	static_assert(std::is_same<typename utility::type_at<t2, 2>::value, char*>::value, "type_at<t2, 2>");
+	static_assert(utility::index_of<t2, char>::value == -1, "index_of<t2, char>");
+
+	using t3 = typename utility::replace<T5, char*, char>::value;
+	static_assert(std::is_same<t3, T5>::value, "t3 == T5");
+}
+
+void replace_all_checker()
+{
+	static_assert(std::is_same<typename utility::replace_all<T1, int, int>::value, T1>::value, "replace_all<T1, int, int> == T1");
+	static_assert(std::is_same<typename utility::replace_all<T1, int*, int>::value, T1>::value, "replace_all<T1, int*> == T1");
+	static_assert(std::is_same<typename utility::replace_all<T5, double, int*>::value,
+		TL::type_list<int, TL::type_list<int*, TL::type_list<char>>>>::value, "replace_all<T5, double> == type_list<int, type_list<int*, type_list<char>>>");
+
+	using t1 = typename utility::replace_all<T3, double, char>::value;
+	static_assert(utility::length<t1>::value == 2, "length<t1>");
+	static_assert(std::is_same<t1::tail::head, char>::value, "t1::tail::head");
+
+	using t2 = typename utility::replace_all<T5, char, char*>::value;
+	static_assert(utility::length<t2>::value == 3, "length<t2>");
+	static_assert(std::is_same<t2::tail::head, double>::value, "t2::tail::head");
+	static_assert(std::is_same<typename utility::type_at<t2, 2>::value, char*>::value, "type_at<t2, 2>");
+	static_assert(utility::index_of<t2, char>::value == -1, "index_of<t2, char>");
+
+	using t3 = typename utility::replace_all<T5, char*, char>::value;
+	static_assert(std::is_same<t3, T5>::value, "t3 == T5");
+
+	using t4 = typename utility::append<T5, int, double, int, char>::value;
+	using t41 = typename utility::replace_all<t4, int, char*>::value;
+	static_assert(std::is_same<t41, TL::type_list<char*, TL::type_list<double, TL::type_list<char, TL::type_list<char*, TL::type_list<double, TL::type_list<char*, TL::type_list<char>>>>>>>>::value,
+		"t41 == type_list<char*, type_list<double, type_list<char, type_list<char*, type_list<double, type_list<char*, type_list<char>>>>>>>");
+}
+
 } // namespace unnamed
 
 namespace test

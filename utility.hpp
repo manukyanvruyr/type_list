@@ -4,7 +4,10 @@ namespace utility
 {
 
 template <typename H>
-class print_helper;
+class print_helper
+{
+	static_assert(sizeof(H) < 0, "there is no specialization for the given type");
+};
 
 template <typename H>
 void print()
@@ -13,25 +16,58 @@ void print()
 }
 
 template <typename H>
-struct length;
+struct length
+{
+	static_assert(sizeof(H) < 0, "there is no specialization for the given type");
+};
 
 template <typename H, unsigned int i>
-struct type_at;
+struct type_at
+{
+	static_assert(sizeof(H) < 0, "there is no specialization for the given type");
+};
 
 template <typename H, typename T>
-struct index_of;
+struct index_of
+{
+	static_assert(sizeof(H) < 0, "there is no specialization for the given type");
+};
 
 template <typename H, typename ... Tail>
-struct append;
+struct append
+{
+	static_assert(sizeof(H) < 0, "there is no specialization for the given type");
+};
 
 template <typename H, typename T>
-struct erase;
+struct erase
+{
+	static_assert(sizeof(H) < 0, "there is no specialization for the given type");
+};
 
 template <typename H, typename T>
-struct erase_all;
+struct erase_all
+{
+	static_assert(sizeof(H) < 0, "there is no specialization for the given type");
+};
 
 template <typename H>
-struct remove_duplicates;
+struct remove_duplicates
+{
+	static_assert(sizeof(H) < 0, "there is no specialization for the given type");
+};
+
+template <typename H, typename T, typename U>
+struct replace
+{
+	static_assert(sizeof(H) < 0, "there is no specialization for the given type");
+};
+
+template <typename H, typename T, typename U>
+struct replace_all
+{
+	static_assert(sizeof(H) < 0, "there is no specialization for the given type");
+};
 
 } // namespace utility
 
